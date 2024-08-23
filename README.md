@@ -9,7 +9,7 @@ https://cpske.github.io/ISP) course at [Kasetsart University](https://www.ku.ac.
 
 ## Installation
 
-To be added. If the procedure is long, put it in the wiki or a separate file.
+To be added.
 
 ## Running the Application
 
@@ -19,6 +19,7 @@ To be added.
 
 All project documents are in the [Project Wiki](../../wiki/Home).
 
+*Important documents*
 - [Vision Statement](../../wiki/Vision%20Statement)
 - [Requirements](../../wiki/Requirements)
 - [Project Plan](../../wiki/Project%20Plan)
