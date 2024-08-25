@@ -57,7 +57,7 @@ class QuestionIndexViewTests(TestCase):
         no polls are available
         """
         response = self.client.get(reverse("polls:index"))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No polls are available.")
         self.assertQuerySetEqual(response.context["latest_question_list"], [])
 
@@ -67,7 +67,7 @@ class QuestionIndexViewTests(TestCase):
         """
         question = create_question("Do toasters dream of electric sheep?", -2)
         response = self.client.get(reverse("polls:index"))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertQuerySetEqual(response.context["latest_question_list"],
                                  [question])
 

@@ -1,10 +1,12 @@
+"""Models for the polls application"""
 import datetime
 from django.db import models
 from django.utils import timezone
 
 
 class Question(models.Model):
-    """A class representing poll questions.
+    """
+    A class representing poll questions.
     Questions have a title represented by 'question_text'
     and a publishing date represented by 'pub_date'
     """
@@ -29,7 +31,7 @@ class Question(models.Model):
 class Choice(models.Model):
     """
     A class for users to choose poll answers.
-    One Question object may have many Choice objects but Choice object
+    One Question object may have many Choice objects but one Choice object
     may only be associated with one question.
     """
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
