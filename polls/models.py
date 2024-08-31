@@ -11,7 +11,8 @@ class Question(models.Model):
     and a publishing date represented by 'pub_date'
     """
     question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField("Date published")
+    pub_date = models.DateTimeField("Date published", default=timezone.now)
+    end_date = models.DateTimeField("End date", null=True)
 
     def was_published_recently(self):
         """
@@ -22,6 +23,21 @@ class Question(models.Model):
         """
         return (timezone.now() >= self.pub_date
                 >= timezone.now() - datetime.timedelta(days=1))
+
+    def can_vote(self):
+        """
+        Determines if the poll can be voted on.
+        Polls can be voted on if the current date is before the end date and
+        after it's publishing date. If the end date is not specified, the poll
+        can be voted on anytime after the start date.
+        :return: A boolean, True if current date is between pub_date and
+        end_date or anytime after the pub_date if end_date is NULL,
+        False otherwise
+        """
+        if self.end_date:
+            return self.pub_date <= timezone.now() <= self.end_date
+        else:
+            return self.pub_date <= timezone.now()
 
     def __str__(self):
         """Returns the Question's text for the user"""
