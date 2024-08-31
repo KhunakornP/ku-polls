@@ -24,6 +24,14 @@ class Question(models.Model):
         return (timezone.now() >= self.pub_date
                 >= timezone.now() - datetime.timedelta(days=1))
 
+    def is_published(self):
+        """
+        Determines if the poll question should be visible/is published.
+        :return: A boolean, True if current date is after the pub_date,
+        False otherwise.
+        """
+        return self.pub_date <= timezone.now()
+
     def can_vote(self):
         """
         Determines if the poll can be voted on.
