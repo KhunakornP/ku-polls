@@ -1,4 +1,4 @@
-{% extends "base_template.html" %}
+{% extends "polls/base_template.html" %}
 {% block content %}
 <form action="{% url 'polls:vote' question.id %}" method="post">
 {% csrf_token %}
