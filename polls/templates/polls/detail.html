@@ -1,5 +1,10 @@
 {% extends "polls/base_template.html" %}
 {% block content %}
+<style>
+    form fieldset{
+    background-color : rgba(255, 255, 255, 0.5);
+}
+</style>
 <form action="{% url 'polls:vote' question.id %}" method="post">
 {% csrf_token %}
 <fieldset>
@@ -12,4 +17,10 @@
 </fieldset>
 <input type="submit" value="Vote">
 </form>
+{% endblock %}
+{% block navigation %}
+<ul>
+    <a href="/polls/" class="button"> Back to poll index </a>
+    <a href="{% url 'polls:results' question.id %}" class="button"> View results </a>
+</ul>
 {% endblock %}
