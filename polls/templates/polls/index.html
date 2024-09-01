@@ -1,12 +1,54 @@
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
+<style>
+.card {
+   background-color : rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: auto;
+  position: relative;
+  left: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+ul {
+    background-color: rgba(255, 255, 255, 0.5);
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+li {
+  display: block;
+  color: #FF0000;
+  text-align: center;
+  padding: 24px;
+  text-decoration: none;
+}
+</style>
+<title> KU polls </title>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
     </ul>
+{% endif %}
+<h1> Welcome to KU polls </h1>
+{% if latest_question_list %}
+    {% for question in latest_question_list %}
+        <div class="card">
+        <h2>{{question.question_text}}</h2>
+        {% if question.can_vote %}
+        <h3> Status: Open </h3>
+  		{% else %}
+        <h3> Status: Closed </h3>
+            {% endif %}
+        <p><a href="{% url 'polls:detail' question.id %}">Vote</a></p>
+  		<p><a href="{% url 'polls:results' question.id %}">Results</a></p>
+        </div>
+    {% endfor %}
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
