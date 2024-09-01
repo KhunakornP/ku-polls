@@ -10,11 +10,11 @@ https://cpske.github.io/ISP) course at [Kasetsart University](https://www.ku.ac.
 ## Installation
 - clone the repository
 ```
-https://github.com/KhunakornP/Indian-flight-visualizer.git
+https://github.com/KhunakornP/ku-polls.git
 ```
 - navigate to the directory
 ```
-cd Indian-flight-visualizer
+cd ku-polls
 ```
 - Install dependencies
 ```
