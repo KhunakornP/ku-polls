@@ -14,8 +14,8 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Returns the last 5 published questions"""
-        return Question.objects.filter(
-            pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        q_ids = [x.pk for x in Question.objects.all() if x.is_published()]
+        return Question.objects.filter(pk__in=q_ids)[:5]
 
 
 class DetailView(generic.DetailView):
@@ -24,7 +24,8 @@ class DetailView(generic.DetailView):
 
     def get_queryset(self):
         """Only return questions that are currently published"""
-        return Question.objects.filter(pub_date__lte=timezone.now())
+        q_ids = [x.pk for x in Question.objects.all() if x.is_published()]
+        return Question.objects.filter(pk__in=q_ids)
 
     def get(self, request, *args, **kwargs):
         """
