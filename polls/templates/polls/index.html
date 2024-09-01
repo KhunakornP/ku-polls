@@ -1,13 +1,32 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+<style>
+.card {
+   background-color : rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: auto;
+  position: relative;
+  left: auto;
+  text-align: center;
+  font-family: arial;
+}
+</style>
 <title> KU polls </title>
 <h1> Welcome to KU polls </h1>
 {% if latest_question_list %}
-    <ul>
     {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        <div class="card">
+        <h2>{{question.question_text}}</h2>
+        {% if question.can_vote %}
+        <h3> Status: Open </h3>
+  		{% else %}
+        <h3> Status: Closed </h3>
+            {% endif %}
+        <p><a href="{% url 'polls:detail' question.id %}">Vote</a></p>
+  		<p><a href="{% url 'polls:results' question.id %}">Results</a></p>
+        </div>
     {% endfor %}
-    </ul>
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
