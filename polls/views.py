@@ -1,5 +1,5 @@
 from django.urls import reverse
-# from django.contrib.messages.views import
+from django.contrib import messages
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -34,9 +34,11 @@ class DetailView(generic.DetailView):
         try:
             Question.objects.get(pk=kwargs['pk'])
         except Question.DoesNotExist:
+            messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
         question = Question.objects.get(pk=kwargs['pk'])
         if not question.is_published():
+            messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
         if not question.can_vote():
             return HttpResponseRedirect("./results")
@@ -55,9 +57,11 @@ class ResultsView(generic.DetailView):
         try:
             Question.objects.get(pk=kwargs['pk'])
         except Question.DoesNotExist:
+            messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
         question = Question.objects.get(pk=kwargs['pk'])
         if not question.is_published():
+            messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
         return super().get(request, *args, **kwargs)
 
