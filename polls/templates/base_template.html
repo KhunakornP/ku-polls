@@ -1,0 +1,26 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+<style>
+    .button {
+    background-color : #04AA6D;
+    border: #555555;
+    color : white;
+  	font-family: "Ludia console", monaco,  monospace;
+    text-align: center;
+    display: inline-block;
+    padding : 12px 16px;
+    margin : 4px 2px;
+    }
+</style>
+<body>
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+<div id="navigation">
+    {% block navigation %}
+    <ul>
+        <a href="/polls/" class="button"> Back to poll index </a>
+    </ul>
+    {% endblock %}
+</div>
+</body>
