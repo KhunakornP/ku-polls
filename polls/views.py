@@ -29,6 +29,7 @@ class DetailView(generic.DetailView):
     def get(self, request, *args, **kwargs):
         """
         Override the get() method and checks if the poll is valid to access
+        if the poll has ended redirect the user to the results page
         """
         try:
             Question.objects.get(pk=kwargs['pk'])
@@ -37,6 +38,8 @@ class DetailView(generic.DetailView):
         question = Question.objects.get(pk=kwargs['pk'])
         if not question.is_published():
             return HttpResponseRedirect(reverse("polls:index"))
+        if not question.can_vote():
+            return HttpResponseRedirect("./results")
         return super().get(request, *args, **kwargs)
 
 
