@@ -10,7 +10,7 @@ https://cpske.github.io/ISP) course at [Kasetsart University](https://www.ku.ac.
 ## Installation
 - clone the repository
 ```
-https://github.com/KhunakornP/ku-polls.git
+git clone https://github.com/KhunakornP/ku-polls.git
 ```
 - navigate to the directory
 ```
@@ -55,3 +55,6 @@ All project documents are in the [Project Wiki](../../wiki/Home).
 - [Vision Statement](../../wiki/Vision%20Statement)
 - [Requirements](../../wiki/Requirements)
 - [Project Plan](../../wiki/Project%20Plan)
+*Iteration plans*
+- [Iteration 1 plan](../../wiki/Iteration%201%20plan)
+- [Iteration 2 plan](../../wiki/Iteration%202%20plan)
