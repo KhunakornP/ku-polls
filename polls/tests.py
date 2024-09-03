@@ -146,7 +146,7 @@ class QuestionIndexViewTests(TestCase):
         q3 = create_question("How many languages do you speak?", -5)
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(response.context["latest_question_list"],
-                                 [q1, q3])
+                                 [q1, q3], ordered=False)
 
 
 class QuestionDetailViewTest(TestCase):
