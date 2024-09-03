@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from .models import Choice, Question
 
 
@@ -67,6 +68,7 @@ class ResultsView(generic.DetailView):
         return super().get(request, *args, **kwargs)
 
 
+@login_required
 def vote(request, question_id):
     """Handler for submitting a vote"""
     question = get_object_or_404(Question, pk=question_id)
