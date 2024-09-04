@@ -1,12 +1,11 @@
 from django.urls import reverse
 from django.contrib import messages
-from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .models import Choice, Question
+from .models import Choice, Question, Vote
 
 
 class IndexView(generic.ListView):
@@ -80,8 +79,17 @@ def vote(request, question_id):
                           "question": question,
                           "error_message": "You didn't select a choice."
                       })
-    else:
-        selected_choice.votes = F("votes") + 1
-        selected_choice.save()
+    try:
+        vote = Vote.objects.get(user=request.user, choice__question= question)
+        vote.choice = selected_choice
+        vote.save()
+        messages.success(request,
+                         f"Your vote has changed to '{selected_choice}'")
+        return HttpResponseRedirect(
+            reverse("polls:results", args=(question_id,)))
+    except Vote.DoesNotExist:
+        new_vote = Vote.objects.create(choice=selected_choice,
+                                       user=request.user)
+        new_vote.save()
         return HttpResponseRedirect(
             reverse("polls:results", args=(question_id,)))
