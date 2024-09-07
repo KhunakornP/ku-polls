@@ -154,21 +154,21 @@ def get_client_ip(request):
 
 
 @receiver(user_logged_in)
-def create_user_log_on_login(request, *args, **kwargs):
+def create_user_log_on_login(request, user, *args, **kwargs):
     """Logs the user and ip on a successful login"""
     client_ip = get_client_ip(request)
-    logger.info(f"Login: {request.user} from IP: {client_ip}.")
+    logger.info(f"Login: {user} from IP: {client_ip}.")
 
 
 @receiver(user_logged_out)
-def create_user_log_on_logout(request, *args, **kwargs):
+def create_user_log_on_logout(request, user, *args, **kwargs):
     """Logs the user and ip on user logout"""
     client_ip = get_client_ip(request)
-    logger.info(f"Logout: {request.user} from IP: {client_ip}.")
+    logger.info(f"Logout: {user} from IP: {client_ip}.")
 
 
 @receiver(user_login_failed)
 def create_user_log_on_failed_login(request, *args, **kwargs):
-    """Logs the user and ip when a login attempt fails"""
+    """Logs the visitor's ip when a login attempt fails"""
     client_ip = get_client_ip(request)
     logger.warning(f"IP: {client_ip} failed to login.")

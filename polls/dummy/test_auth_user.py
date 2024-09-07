@@ -5,10 +5,11 @@
    Then run: manage.py test auth
 
 """
+import logging
 import django.test
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate # to "login" a user using code
+from django.contrib.auth import authenticate
 from polls.models import Question, Choice
 from mysite import settings
 
@@ -60,7 +61,7 @@ class UserAuthTest(django.test.TestCase):
         self.assertEqual(302, response.status_code)
         
         # should redirect us to where? Polls index? Login?
-        self.assertRedirects(response, reverse(settings.LOGOUT_REDIRECT_URL))
+        self.assertRedirects(response, reverse("polls:index"))
 
 
     def test_login_view(self):
@@ -98,10 +99,5 @@ class UserAuthTest(django.test.TestCase):
         response = self.client.post(vote_url, form_data)
         # should be redirected to the login page
         self.assertEqual(response.status_code, 302)  # could be 303
-        # TODO: this test fails because reverse('login') does not include
-        # the query parameter ?next=/polls/1/vote/
-        #self.assertRedirects(response, reverse('login') )
-        # How to fix it? 
         login_with_next = f"{reverse('login')}?next={vote_url}"
         self.assertRedirects(response, login_with_next )
-
