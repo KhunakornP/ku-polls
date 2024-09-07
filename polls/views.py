@@ -1,4 +1,8 @@
 import logging
+
+from django.contrib.auth import (user_logged_in, user_logged_out,
+                                 user_login_failed)
+from django.dispatch import receiver
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -79,6 +83,8 @@ def vote(request, question_id):
     except (KeyError, Choice.DoesNotExist):
         messages.error(request, "You didn't select a choice!, "
                                 "please select a choice before voting.")
+        logger.error(f"{request.user} tried to vote on an invalid choice in "
+                     f"question {question_id}.) {question.question_text}")
         return HttpResponseRedirect(
             reverse("polls:detail", args=(question_id,)))
     try:
@@ -89,14 +95,50 @@ def vote(request, question_id):
         messages.success(request,
                          f"Your vote has changed to '{selected_choice}' "
                          f"from '{prev_choice}'")
+        logger.info(f"{request.user} changed their vote from "
+                    f"'{prev_choice}' to '{selected_choice}' in "
+                    f"question {question_id}.) {question.question_text}")
         return HttpResponseRedirect(
             reverse("polls:results", args=(question_id,)))
     except Vote.DoesNotExist:
-        messages.success(request,
-                         f"Your vote for '{selected_choice}' has been "
-                         f"recorded")
         new_vote = Vote.objects.create(choice=selected_choice,
                                        user=request.user)
         new_vote.save()
+        messages.success(request,
+                         f"Your vote for '{selected_choice}' has been "
+                         f"recorded")
+        logger.info(f"{request.user} voted for '{selected_choice}' in "
+                    f"question {question_id}.) {question.question_text}")
         return HttpResponseRedirect(
             reverse("polls:results", args=(question_id,)))
+
+
+def get_client_ip(request):
+    """Get the visitor’s IP address using request headers."""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+@receiver(user_logged_in)
+def create_user_log_on_login(request, *args, **kwargs):
+    """Logs the user and ip on a successful login"""
+    client_ip = get_client_ip(request)
+    logger.info(f"Login: {request.user} from IP: {client_ip}.")
+
+
+@receiver(user_logged_out)
+def create_user_log_on_logout(request, *args, **kwargs):
+    """Logs the user and ip on user logout"""
+    client_ip = get_client_ip(request)
+    logger.info(f"Logout: {request.user} from IP: {client_ip}.")
+
+
+@receiver(user_login_failed)
+def create_user_log_on_failed_login(request, *args, **kwargs):
+    """Logs the user and ip when a login attempt fails"""
+    client_ip = get_client_ip(request)
+    logger.warning(f"IP: {client_ip} failed to login.")
