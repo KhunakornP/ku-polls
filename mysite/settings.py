@@ -121,15 +121,17 @@ LOGGING = {
             },
         },
     "loggers": {
-            "": {
+            "polls": {
                 "level": "DEBUG",
                 "handlers": ["file"],
+                "propagate": False
             },
         },
     "formatters": {
             "verbose": {
-                "format": "{asctime} {name} {module} {levelname}"
+                "format": "[{asctime}] {module} {levelname}"
                           " {message}",
+                "datefmt": "%d/%m/%y %H:%M:%S",
                 "style": "{",
             },
         },
