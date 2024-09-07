@@ -116,13 +116,21 @@ LOGGING = {
             "file": {
                 "class": "logging.FileHandler",
                 "filename": "poll_logs.log",
-                "level": "DEBUG"
+                "level": "DEBUG",
+                "formatter": "verbose",
             },
         },
     "loggers": {
             "": {
                 "level": "DEBUG",
                 "handlers": ["file"],
+            },
+        },
+    "formatters": {
+            "verbose": {
+                "format": "{asctime} {name} {module} {levelname}"
+                          " {message}",
+                "style": "{",
             },
         },
     }

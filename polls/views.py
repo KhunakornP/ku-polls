@@ -67,8 +67,6 @@ class ResultsView(generic.DetailView):
         if not question.is_published():
             messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
-        # dummy log
-        logger.info("Results sucessful")
         return super().get(request, *args, **kwargs)
 
 
