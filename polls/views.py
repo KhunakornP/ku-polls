@@ -1,3 +1,4 @@
+import logging
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -6,6 +7,9 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import Choice, Question, Vote
+
+# get a logger instance for the polls app
+logger = logging.getLogger(__name__)
 
 
 class IndexView(generic.ListView):
@@ -63,6 +67,8 @@ class ResultsView(generic.DetailView):
         if not question.is_published():
             messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
+        # dummy log
+        logger.info("Results sucessful")
         return super().get(request, *args, **kwargs)
 
 

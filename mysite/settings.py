@@ -108,6 +108,25 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = 'polls:index'
 LOGOUT_REDIRECT_URL = 'polls:index'
 
+# logging configuration
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+            "file": {
+                "class": "logging.FileHandler",
+                "filename": "poll_logs.log",
+                "level": "DEBUG"
+            },
+        },
+    "loggers": {
+            "": {
+                "level": "DEBUG",
+                "handlers": ["file"],
+            },
+        },
+    }
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
