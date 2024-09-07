@@ -41,11 +41,17 @@ class DetailView(generic.DetailView):
         """
         try:
             Question.objects.get(pk=kwargs['pk'])
+        # check if the poll exists
         except Question.DoesNotExist:
+            logger.error(f"{request.user} tried to access a poll that does not"
+                         f" exists. Poll PK: {kwargs['pk']}")
             messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
         question = Question.objects.get(pk=kwargs['pk'])
+        # check of the poll is published
         if not question.is_published():
+            logger.error(f"{request.user} tried to access an unpublished poll."
+                         f"Poll PK:{kwargs['pk']}")
             messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
         if not question.can_vote():
@@ -64,11 +70,17 @@ class ResultsView(generic.DetailView):
         """
         try:
             Question.objects.get(pk=kwargs['pk'])
+        # check if the poll exists
         except Question.DoesNotExist:
+            logger.error(f"{request.user} tried to access a poll that does not"
+                         f" exists. Poll PK: {kwargs['pk']}")
             messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
         question = Question.objects.get(pk=kwargs['pk'])
+        # check if the poll is published
         if not question.is_published():
+            logger.error(f"{request.user} tried to access an unpublished poll."
+                         f"Poll PK:{kwargs['pk']}")
             messages.error(request, "Error: Poll was not found")
             return HttpResponseRedirect(reverse("polls:index"))
         return super().get(request, *args, **kwargs)
