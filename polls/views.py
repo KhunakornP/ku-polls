@@ -73,21 +73,24 @@ def vote(request, question_id):
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
-        return render(request,
-                      "polls/detail.html",
-                      {
-                          "question": question,
-                          "error_message": "You didn't select a choice."
-                      })
+        messages.error(request, "You didn't select a choice!, "
+                                "please select a choice before voting.")
+        return HttpResponseRedirect(
+            reverse("polls:detail", args=(question_id,)))
     try:
-        vote = Vote.objects.get(user=request.user, choice__question= question)
+        vote = Vote.objects.get(user=request.user, choice__question=question)
+        prev_choice = vote.choice
         vote.choice = selected_choice
         vote.save()
         messages.success(request,
-                         f"Your vote has changed to '{selected_choice}'")
+                         f"Your vote has changed to '{selected_choice}' "
+                         f"from '{prev_choice}'")
         return HttpResponseRedirect(
             reverse("polls:results", args=(question_id,)))
     except Vote.DoesNotExist:
+        messages.success(request,
+                         f"Your vote for '{selected_choice}' has been "
+                         f"recorded")
         new_vote = Vote.objects.create(choice=selected_choice,
                                        user=request.user)
         new_vote.save()
