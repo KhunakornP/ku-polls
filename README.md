@@ -59,3 +59,12 @@ All project documents are in the [Project Wiki](../../wiki/Home).
 *Iteration plans*
 - [Iteration 1 plan](../../wiki/Iteration%201%20plan)
 - [Iteration 2 plan](../../wiki/Iteration%202%20plan)
+- [Iteration 3 plan](../../wiki/Iteration%203%20plan)
+
+## demo users
+You can register new users in the app or use these demo users
+| username | password |
+|-------|----------|
+| demo1 | hackme11 |
+| demo2 | hackme22 |
+| demo3 | hackme33 |
