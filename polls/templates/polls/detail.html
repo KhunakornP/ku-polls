@@ -9,10 +9,14 @@
 {% csrf_token %}
 <fieldset>
     <legend><h1>{{ question.question_text }}</h1></legend>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     {% for choice in question.choice_set.all %}
+        {% if choice.id == prev_vote %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked>
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% else %}
         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
         <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% endif %}
     {% endfor %}
 </fieldset>
 <input type="submit" value="Vote">

@@ -55,7 +55,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,13 +100,49 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    # username & password authentication
+   'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_REDIRECT_URL = 'polls:index'
+LOGOUT_REDIRECT_URL = 'polls:index'
+
+# logging configuration
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+            "file": {
+                "class": "logging.FileHandler",
+                "filename": "poll_logs.log",
+                "level": "DEBUG",
+                "formatter": "verbose",
+            },
+        },
+    "loggers": {
+            "polls": {
+                "level": "DEBUG",
+                "handlers": ["file"],
+                "propagate": False
+            },
+        },
+    "formatters": {
+            "verbose": {
+                "format": "[{asctime}] {module} {levelname}"
+                          " {message}",
+                "datefmt": "%d/%m/%y %H:%M:%S",
+                "style": "{",
+            },
+        },
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Bangkok'
+TIME_ZONE = config('TIME_ZONE', default='UTC')
 
 USE_I18N = True
 

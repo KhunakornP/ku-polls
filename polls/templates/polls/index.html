@@ -11,7 +11,12 @@
   text-align: center;
   font-family: arial;
 }
-
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 50px;
+  row-gap: 50px;
+}
 ul {
     background-color: rgba(255, 255, 255, 0.5);
     list-style-type: none;
@@ -35,8 +40,18 @@ li {
         {% endfor %}
     </ul>
 {% endif %}
-<h1> Welcome to KU polls </h1>
+{% if user.is_authenticated %}
+   Welcome back, {{ user.username }}.
+<form action="{% url 'logout' %}" method="post">
+   {% csrf_token %}
+  <button type="submit">Log Out</button>
+</form>
+{% else %}
+   Please <a href="{% url 'login' %}?next={{request.path}}">Login</a>
+{% endif %}
+<h1 style="color:#228B22; text-shadow:1px 1px black"> Welcome to KU polls </h1>
 {% if latest_question_list %}
+<div class="grid-container">
     {% for question in latest_question_list %}
         <div class="card">
         <h2>{{question.question_text}}</h2>
@@ -49,6 +64,7 @@ li {
   		<p><a href="{% url 'polls:results' question.id %}">Results</a></p>
         </div>
     {% endfor %}
+    </div>
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
