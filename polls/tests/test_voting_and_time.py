@@ -67,6 +67,13 @@ class QuestionModelTestcase(TestCase):
         self.assertTrue(valid_question.can_vote())
         self.assertFalse(invalid_question.can_vote())
 
+    def test_cannot_vote_before_pub_date(self):
+        """
+        Polls cannot be voted on if the poll has not been published
+        """
+        ended_question = create_question("Does Trump suck?", 10, 12)
+        self.assertFalse(ended_question.can_vote())
+
     def test_cannot_vote_after_end_date(self):
         """
         Polls cannot be voted on if they are after the end date

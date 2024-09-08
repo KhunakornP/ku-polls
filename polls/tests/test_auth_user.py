@@ -1,10 +1,4 @@
-"""Tests of user authentication.
-
-   Put this file in a subdirectory of your ku-polls project,
-   for example, a directory named "auth".
-   Then run: manage.py test auth
-
-"""
+"""Tests of user authentication."""
 import logging
 import django.test
 from django.urls import reverse

@@ -49,6 +49,20 @@ class QuestionIndexViewTests(TestCase):
         self.assertQuerySetEqual(response.context["latest_question_list"],
                                  [q1, q3], ordered=False)
 
+    def test_display_open_and_closed_questions(self):
+        """
+        The index view should display questions which are published for
+        questions that can and can't be voted on
+        """
+        q1 = create_question("What's the most popular coding language?",
+                             -1, 10)
+        q2 = create_question("How many snails are in Kasetsart university?",
+                             12, 13)
+        q3 = create_question("How many languages do you speak?", -5, -2)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerySetEqual(response.context["latest_question_list"],
+                                 [q1, q3], ordered=False)
+
 
 class QuestionDetailViewTest(TestCase):
     """Tests for the Detail View"""
@@ -61,6 +75,7 @@ class QuestionDetailViewTest(TestCase):
         url = reverse("polls:detail", args=(future_question.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("polls:index"))
 
     def test_past_question(self):
         """
@@ -71,3 +86,13 @@ class QuestionDetailViewTest(TestCase):
         url = reverse("polls:detail", args=(question.id,))
         response = self.client.get(url)
         self.assertContains(response, question.question_text)
+
+    def test_non_existent_question(self):
+        """
+        Trying to access a details of a poll question that doesn't exist
+        returns a redirect to the index page.
+        """
+        url = reverse("polls:detail", args=(99,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("polls:index"))
