@@ -12,8 +12,8 @@
   "model": "polls.question",
   "pk": 3,
   "fields": {
-    "question_text": "Who will win the 2024 presidental election?",
-    "pub_date": "2024-08-25T07:15:59.937Z",
+    "question_text": "Who will win the 2024 presidential election?",
+    "pub_date": "2024-08-25T07:15:59Z",
     "end_date": null
   }
 },
@@ -41,6 +41,15 @@
   "fields": {
     "question_text": "How often do you exercise per week?",
     "pub_date": "2024-09-01T08:33:00Z",
+    "end_date": null
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 7,
+  "fields": {
+    "question_text": "How many stars would you rate the fisheries canteen at Kasetsart university Bangkhen",
+    "pub_date": "2024-09-08T10:56:04Z",
     "end_date": null
   }
 },
@@ -253,6 +262,46 @@
   }
 },
 {
+  "model": "polls.choice",
+  "pk": 31,
+  "fields": {
+    "question": 7,
+    "choice_text": "1 star"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 32,
+  "fields": {
+    "question": 7,
+    "choice_text": "2 stars"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 33,
+  "fields": {
+    "question": 7,
+    "choice_text": "3 stars"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 34,
+  "fields": {
+    "question": 7,
+    "choice_text": "4 stars"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 35,
+  "fields": {
+    "question": 7,
+    "choice_text": "5 stars"
+  }
+},
+{
   "model": "polls.vote",
   "pk": 1,
   "fields": {
@@ -272,7 +321,7 @@
   "model": "polls.vote",
   "pk": 3,
   "fields": {
-    "choice": 28,
+    "choice": 27,
     "user": 3
   }
 },
@@ -305,6 +354,30 @@
   "pk": 7,
   "fields": {
     "choice": 5,
+    "user": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 8,
+  "fields": {
+    "choice": 11,
+    "user": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 9,
+  "fields": {
+    "choice": 18,
+    "user": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 10,
+  "fields": {
+    "choice": 31,
     "user": 3
   }
 }
