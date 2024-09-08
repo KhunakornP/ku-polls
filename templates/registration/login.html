@@ -1,4 +1,26 @@
 <html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+<style>
+    .button {
+    background-color : #04AA6D;
+    border: #555555;
+    color : white;
+  	font-family: "Ludia console", monaco,  monospace;
+    text-align: center;
+    display: inline-block;
+    padding : 12px 16px;
+    }
+    .container {
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 60%;
+    padding: 10px;
+    text-align: center;
+    max-width: fit-content;
+    }
+</style>
+<div class="container">
 <body>
 <h2>Login</h2>
 <form method="post">
@@ -9,7 +31,10 @@
   </p>
   <input type="hidden" name="next" value="{{next}}"/>
  </form>
-<p> Don't have an account? create one here
+<ul>
 <a href="/register/" class="button"> Create an account </a>
+    <a href="/polls/" class="button"> Back to poll index </a>
+</ul>
 </body>
+</div>
 </html>
