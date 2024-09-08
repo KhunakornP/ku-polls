@@ -4,7 +4,7 @@ import time
 from .functions import create_question, create_choice
 from django.test import TestCase
 from django.utils import timezone
-from polls.models import Question, Choice, Vote
+from polls.models import Question
 
 
 class QuestionModelTestcase(TestCase):
@@ -90,6 +90,16 @@ class QuestionModelTestcase(TestCase):
         invalid_no_end = create_question("Question template text?", 1)
         self.assertTrue(valid_no_end.can_vote())
         self.assertFalse(invalid_no_end.can_vote())
+
+    def test_question_is_published(self):
+        """
+        The is_published() method returns true when the current date
+        is after the publishing date of a question
+        """
+        question1 = create_question("Did you forget to migrate the data?", -1)
+        question2 = create_question("Ofcourse I didn't", 1)
+        self.assertTrue(question1.is_published())
+        self.assertFalse(question2.is_published())
 
 
 class ChoiceModelTestcase(TestCase):
