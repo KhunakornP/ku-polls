@@ -47,11 +47,6 @@ class UserAuthTest(django.test.TestCase):
         and then redirected to the login page.
         """
         logout_url = reverse("logout")
-        # Authenticate the user.
-        # We want to logout this user, so we need to associate the
-        # user user with a session.  Setting client.user = ... doesn't work.
-        # Use Client.login(username, password) to do that.
-        # Client.login returns true on success
         self.assertTrue( 
               self.client.login(username=self.username, password=self.password)
                        )
@@ -59,8 +54,6 @@ class UserAuthTest(django.test.TestCase):
         form_data = {}
         response = self.client.post(logout_url, form_data)
         self.assertEqual(302, response.status_code)
-        
-        # should redirect us to where? Polls index? Login?
         self.assertRedirects(response, reverse("polls:index"))
 
 
@@ -98,6 +91,6 @@ class UserAuthTest(django.test.TestCase):
         form_data = {"choice": f"{choice.id}"}
         response = self.client.post(vote_url, form_data)
         # should be redirected to the login page
-        self.assertEqual(response.status_code, 302)  # could be 303
+        self.assertEqual(response.status_code, 302)
         login_with_next = f"{reverse('login')}?next={vote_url}"
         self.assertRedirects(response, login_with_next )
