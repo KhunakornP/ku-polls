@@ -1,10 +1,10 @@
 """Test cases for classes used in the voting process"""
 import datetime
 import time
-from .functions import create_question
+from .functions import create_question, create_choice
 from django.test import TestCase
 from django.utils import timezone
-from polls.models import Question
+from polls.models import Question, Choice, Vote
 
 
 class QuestionModelTestcase(TestCase):
@@ -83,3 +83,30 @@ class QuestionModelTestcase(TestCase):
         invalid_no_end = create_question("Question template text?", 1)
         self.assertTrue(valid_no_end.can_vote())
         self.assertFalse(invalid_no_end.can_vote())
+
+
+class ChoiceModelTestcase(TestCase):
+    """Tests for the choice class"""
+    def test_question_has_choices(self):
+        """
+        Choices have only 1 associated question and a question should
+        display all of its associated choices.
+        """
+        question = create_question("Do you like tom and jerry?", -1)
+        c1 = create_choice("yes", question)
+        c2 = create_choice("no", question)
+        self.assertEqual([c1, c2], list(question.choice_set.all()))
+
+    def test_choices_have_same_text(self):
+        """
+        Choices may have the same text but are associated
+        with different questions.
+        """
+        question1 = create_question("Do you like tom and jerry?", -1)
+        question2 = create_question("Do you like trains?", -1)
+        c1 = create_choice("yes", question1)
+        c2 = create_choice("no", question1)
+        c3 = create_choice("yes", question2)
+        c4 = create_choice("no", question2)
+        self.assertEqual([c1, c2], list(question1.choice_set.all()))
+        self.assertEqual([c3, c4], list(question2.choice_set.all()))

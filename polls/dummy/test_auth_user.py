@@ -37,7 +37,6 @@ class UserAuthTest(django.test.TestCase):
             choice.save()
         self.question = q
 
-
     def test_logout(self):
         """A user can logout using the logout url.
 
@@ -56,7 +55,6 @@ class UserAuthTest(django.test.TestCase):
         self.assertEqual(302, response.status_code)
         self.assertRedirects(response, reverse("polls:index"))
 
-
     def test_login_view(self):
         """A user can login using the login view."""
         login_url = reverse("login")
@@ -73,7 +71,6 @@ class UserAuthTest(django.test.TestCase):
         self.assertEqual(302, response.status_code)
         # should redirect us to the polls index page ("polls:index")
         self.assertRedirects(response, reverse(settings.LOGIN_REDIRECT_URL))
-
 
     def test_auth_required_to_vote(self):
         """Authentication is required to submit a vote.

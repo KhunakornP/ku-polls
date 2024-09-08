@@ -1,7 +1,7 @@
 """File for storing functions used by test cases"""
 import datetime
 from django.utils import timezone
-from polls.models import Question
+from polls.models import Question, Choice
 
 
 def create_question(text, days, end_date=None):
@@ -21,3 +21,15 @@ def create_question(text, days, end_date=None):
         return Question.objects.create(question_text=text, pub_date=start_time,
                                        end_date=end_time)
     return Question.objects.create(question_text=text, pub_date=start_time)
+
+
+def create_choice(text, question):
+    """
+    Creates a Choice object with the given "text" and the question the
+    choice is for
+    :param text: The choice's text
+    :param question: The question the choice belongs to
+    :return: A Choice object with choice_text = text and its associated
+    question
+    """
+    return Choice.objects.create(question=question, choice_text=text)
