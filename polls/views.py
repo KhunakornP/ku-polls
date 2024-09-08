@@ -19,6 +19,11 @@ logger = logging.getLogger(__name__)
 
 
 class IndexView(generic.ListView):
+    """
+    View that displays the 5 most recent poll questions
+
+    returns: A rendered template of the 5 most recent poll questions
+    """
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
 
@@ -29,6 +34,11 @@ class IndexView(generic.ListView):
 
 
 class DetailView(generic.DetailView):
+    """
+    View that displays the choices (details) of a poll question
+
+    returns: A rendered template of the question's choices
+    """
     model = Question
     template_name = "polls/detail.html"
 
@@ -36,13 +46,34 @@ class DetailView(generic.DetailView):
         """Only return questions that are currently published"""
         return Question.objects.filter(pub_date__lte=timezone.now())
 
+    def get_context_data(self, **kwargs):
+        """
+        Override the get_context_data() method and check if the user
+        has previously selected a choice.
+        """
+        context = super().get_context_data(**kwargs)
+        # check if user is logged in
+        if self.request.user.is_authenticated:
+            # check if user had previously voted
+            try:
+                vote = Vote.objects.get(
+                    user=self.request.user,
+                    choice__question=self.question)
+                context['prev_vote'] = vote.choice.id
+                return context
+            # user has not voted yet for this question
+            except Vote.DoesNotExist:
+                context['prev_vote'] = None
+                return context
+        return context
+
     def get(self, request, *args, **kwargs):
         """
         Override the get() method and checks if the poll is valid to access
         if the poll has ended redirect the user to the results page
         """
         try:
-            Question.objects.get(pk=kwargs['pk'])
+            self.question = Question.objects.get(pk=kwargs['pk'])
         # check if the poll exists
         except Question.DoesNotExist:
             logger.error(f"{request.user} tried to access a poll that does not"
@@ -62,6 +93,11 @@ class DetailView(generic.DetailView):
 
 
 class ResultsView(generic.DetailView):
+    """
+    View that displays the results of a poll question
+
+    returns: A rendered template of the poll's result
+    """
     model = Question
     template_name = "polls/results.html"
 
