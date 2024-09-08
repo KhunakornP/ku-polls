@@ -128,6 +128,12 @@ class ResultsView(generic.DetailView):
 def vote(request, question_id):
     """Handler for submitting a vote"""
     question = get_object_or_404(Question, pk=question_id)
+    if not question.can_vote():
+        messages.error(request, "Poll is currently closed")
+        logger.error(f"{request.user} tried to vote on a closed poll, "
+                     f"Poll: {question_id}.) {question.question_text}")
+        return HttpResponseRedirect(
+            reverse("polls:index"))
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
