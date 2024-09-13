@@ -194,8 +194,6 @@ def clear(request, question_id):
                      f"question {question_id}.) {question.question_text}")
 
 
-
-
 def register(request):
     """Handler for creating new users"""
     if request.method == 'POST':

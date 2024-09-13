@@ -19,7 +19,8 @@
         {% endif %}
     {% endfor %}
 </fieldset>
-<input type="submit" value="Vote">
+    <input type="submit" value="Vote">
+    <input type="submit" formaction="{% url 'polls:clear' question.id %}" value="Clear vote">
 </form>
 {% endblock %}
 {% block navigation %}
