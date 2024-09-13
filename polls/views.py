@@ -169,6 +169,33 @@ def vote(request, question_id):
             reverse("polls:results", args=(question_id,)))
 
 
+@login_required
+def clear(request, question_id):
+    """Handler for clearing a submitted a vote"""
+    question = get_object_or_404(Question, pk=question_id)
+    if not question.can_vote():
+        messages.error(request, "Poll is currently closed")
+        logger.error(f"{request.user} tried to vote on a closed poll, "
+                     f"Poll: {question_id}.) {question.question_text}")
+        return HttpResponseRedirect(
+            reverse("polls:index"))
+    try:
+        vote = Vote.objects.get(user=request.user, choice__question=question)
+        vote.delete()
+        messages.info(request, "Your vote has been successfully removed")
+        logger.info(f"{request.user} removed their vote on, "
+                    f"Poll: {question_id}.) {question.question_text}")
+        return HttpResponseRedirect(
+            reverse("polls:detail", args=(question_id,)))
+    except Vote.DoesNotExist:
+        messages.error(request, "You do not have a submitted vote for"
+                                "this question!")
+        logger.error(f"{request.user} tried to clear a non-existant vote in "
+                     f"question {question_id}.) {question.question_text}")
+
+
+
+
 def register(request):
     """Handler for creating new users"""
     if request.method == 'POST':
