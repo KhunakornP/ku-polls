@@ -202,10 +202,12 @@ def clear(request, question_id):
         return HttpResponseRedirect(
             reverse("polls:detail", args=(question_id,)))
     except Vote.DoesNotExist:
-        messages.error(request, "You do not have a submitted vote for"
-                                "this question!")
+        messages.error(request, "You do not have a submitted "
+                       "vote to clear for this question!")
         logger.error(f"{request.user} tried to clear a non-existant vote in "
                      f"question {question_id}.) {question.question_text}")
+        return HttpResponseRedirect(
+            reverse("polls:detail", args=(question_id,)))
 
 
 def register(request):
