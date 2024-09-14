@@ -28,7 +28,7 @@ jobs:
     - name: Create a .env file
       run: |
         touch .env
-        echo SECRET_KEY="${{ secrets.SECRET_KEY }}" >> .env
+        echo "SECRET_KEY = ${{secrets.SECRET_KEY}}" >> .env
         echo ALLOWED_HOSTS="${{ secrets.ALLOWED_HOSTS }}" >> .env
         echo DEBUG="${{ secrets.DEBUG }}" >> .env
         echo TIME_ZONE="${{ secrets.TIME_ZONE }}" >> .env
