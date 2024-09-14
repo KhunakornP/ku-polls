@@ -1,5 +1,6 @@
-## KU Polls: Online Polling website
+## KU Polls: Online Polling Web application
 [![Django CI](https://github.com/KhunakornP/ku-polls/actions/workflows/django_tests.yml/badge.svg)](https://github.com/KhunakornP/ku-polls/actions/workflows/django_tests.yml)
+[![Linting with flake8](https://github.com/KhunakornP/ku-polls/actions/workflows/python-flake8.yml/badge.svg)](https://github.com/KhunakornP/ku-polls/actions/workflows/python-flake8.yml)
 
 An application to conduct online polls and surveys based
 on the [Django Tutorial project](https://docs.djangoproject.com/en/5.1/intro/tutorial01/), with
@@ -47,8 +48,17 @@ All project documents are in the [Project Wiki](../../wiki/Home).
 
 ## demo users
 You can register new users in the app or use these demo users
+
 | username | password |
 |-------|----------|
 | demo1 | hackme11 |
 | demo2 | hackme22 |
 | demo3 | hackme33 |
+
+## Super users
+
+| username | password |
+|------- |----------|
+| admin1 | hackme123 |
+
+
