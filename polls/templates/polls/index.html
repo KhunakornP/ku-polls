@@ -1,44 +1,17 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'polls/style.css' %}">
-<style>
-.card {
-   background-color : rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  margin: auto;
-  position: relative;
-  left: auto;
-  text-align: center;
-  font-family: arial;
-}
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto;
-  column-gap: 50px;
-  row-gap: 50px;
-}
-ul {
-    background-color: rgba(255, 255, 255, 0.5);
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-li {
-  display: block;
-  color: #FF0000;
-  text-align: center;
-  padding: 24px;
-  text-decoration: none;
-}
-</style>
+<head>
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
 <title> KU polls </title>
 {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}<p  style="color: red">{{ message }}</p>
+    {% endif %}
+    </li>
+    {% endfor %}
+</ul>
 {% endif %}
 {% if user.is_authenticated %}
    Welcome back, {{ user.username }}.

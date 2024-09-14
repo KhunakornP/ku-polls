@@ -13,7 +13,7 @@
     }
 </style>
 <body>
-<div id="login">
+<div id="login" class="login">
     {% block login %}
 {% if user.is_authenticated %}
    Welcome back, {{ user.username }}.
@@ -28,12 +28,18 @@
     </div>
 <div id="messages">
     {% block messages %}
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <p  style="color: red">{{ message }}</p>
+        {% else %}
+        <p> {{ message }}</p>
+    {% endif %}
+    </li>
+    {% endfor %}
+</ul>
 {% endif %}
     {% endblock %}
     </div>

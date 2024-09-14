@@ -3,3 +3,76 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.card {
+   background-color : rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: auto;
+  position: relative;
+  left: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 50px;
+  row-gap: 50px;
+}
+
+.container{
+  width: 50%;
+}
+
+.messages {
+    background-color: rgba(255, 255, 255, 0.5);
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.login {
+    background-color: rgba(255, 255, 255, 0.5);
+    list-style-type: none;
+    margin: 20px 0px;
+    padding: 10px 10px;
+    width: fit-content;
+    block-size: fit-content;
+}
+
+legend {
+  background-color: #228B22;
+  color: white;
+  padding: 5px 5px;
+  overflow-x: auto;
+  font-size: 14px;
+}
+
+li {
+  display: block;
+  color: #FF0000;
+  text-align: center;
+  padding: 8px;
+  text-decoration: none;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+}
+
+td{
+  border: 1px solid #dddddd;
+  text-align: right;
+  padding: 8px;
+  background-color: rgba(255,255,255,0.5);
+}
+th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+  background-color: rgba(255,255,255,0.5);
+}
