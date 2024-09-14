@@ -1,3 +1,4 @@
+"""Module for all view classes for pages in the poll app."""
 import logging
 
 from django.contrib.auth import (user_logged_in, user_logged_out,
@@ -20,34 +21,42 @@ logger = logging.getLogger(__name__)
 
 class IndexView(generic.ListView):
     """
-    View that displays the 5 most recent poll questions
+    View that displays all active poll questions.
 
-    returns: A rendered template of the 5 most recent poll questions
+    returns: A rendered template of the 5 most recent poll questions.
     """
+
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
 
     def get_queryset(self):
-        """Returns the last 5 published questions"""
+        """Return all published questions."""
         return Question.objects.filter(
-            pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+            pub_date__lte=timezone.now()).order_by("-pub_date")
 
 
 class DetailView(generic.DetailView):
     """
-    View that displays the choices (details) of a poll question
+    View that displays the choices (details) of a poll question.
 
-    returns: A rendered template of the question's choices
+    returns: A rendered template of the question's choices.
     """
+
     model = Question
     template_name = "polls/detail.html"
 
     def get_queryset(self):
-        """Only return questions that are currently published"""
+        """
+        Get a set of available questions.
+
+        return a queryset of questions that are currently published
+        """
         return Question.objects.filter(pub_date__lte=timezone.now())
 
     def get_context_data(self, **kwargs):
         """
+        Get the context data and preform additional checks.
+
         Override the get_context_data() method and check if the user
         has previously selected a choice.
         """
@@ -69,6 +78,8 @@ class DetailView(generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         """
+        Receive the get request and preform additional checks.
+
         Override the get() method and checks if the poll is valid to access
         if the poll has ended redirect the user to the results page
         """
@@ -94,17 +105,20 @@ class DetailView(generic.DetailView):
 
 class ResultsView(generic.DetailView):
     """
-    View that displays the results of a poll question
+    View that displays the results of a poll question.
 
-    returns: A rendered template of the poll's result
+    returns: A rendered template of the poll's result.
     """
+
     model = Question
     template_name = "polls/results.html"
 
     def get(self, request, *args, **kwargs):
         """
+        Receive the get request and preform additional checks.
+
         Override the get() method checks if
-        the poll's result is valid to access
+        the poll's result is valid to access.
         """
         try:
             Question.objects.get(pk=kwargs['pk'])
@@ -126,7 +140,7 @@ class ResultsView(generic.DetailView):
 
 @login_required
 def vote(request, question_id):
-    """Handler for submitting a vote"""
+    """Handle requests for submitting a vote."""
     question = get_object_or_404(Question, pk=question_id)
     if not question.can_vote():
         messages.error(request, "Poll is currently closed")
@@ -169,8 +183,35 @@ def vote(request, question_id):
             reverse("polls:results", args=(question_id,)))
 
 
+@login_required
+def clear(request, question_id):
+    """Handle requests for clearing a submitted a vote."""
+    question = get_object_or_404(Question, pk=question_id)
+    if not question.can_vote():
+        messages.error(request, "Poll is currently closed")
+        logger.error(f"{request.user} tried to vote on a closed poll, "
+                     f"Poll: {question_id}.) {question.question_text}")
+        return HttpResponseRedirect(
+            reverse("polls:index"))
+    try:
+        vote = Vote.objects.get(user=request.user, choice__question=question)
+        vote.delete()
+        messages.info(request, "Your vote has been successfully removed")
+        logger.info(f"{request.user} removed their vote on, "
+                    f"Poll: {question_id}.) {question.question_text}")
+        return HttpResponseRedirect(
+            reverse("polls:detail", args=(question_id,)))
+    except Vote.DoesNotExist:
+        messages.error(request, "You do not have a submitted "
+                       "vote to clear for this question!")
+        logger.error(f"{request.user} tried to clear a non-existant vote in "
+                     f"question {question_id}.) {question.question_text}")
+        return HttpResponseRedirect(
+            reverse("polls:detail", args=(question_id,)))
+
+
 def register(request):
-    """Handler for creating new users"""
+    """Handle requests for creating new users."""
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -197,20 +238,20 @@ def get_client_ip(request):
 
 @receiver(user_logged_in)
 def create_user_log_on_login(request, user, *args, **kwargs):
-    """Logs the user and ip on a successful login"""
+    """Log the user and ip on a successful login."""
     client_ip = get_client_ip(request)
     logger.info(f"Login: {user} from IP: {client_ip}.")
 
 
 @receiver(user_logged_out)
 def create_user_log_on_logout(request, user, *args, **kwargs):
-    """Logs the user and ip on user logout"""
+    """Log the user and ip on a user logout."""
     client_ip = get_client_ip(request)
     logger.info(f"Logout: {user} from IP: {client_ip}.")
 
 
 @receiver(user_login_failed)
 def create_user_log_on_failed_login(request, *args, **kwargs):
-    """Logs the visitor's ip when a login attempt fails"""
+    """Log the visitor's ip when a login attempt fails."""
     client_ip = get_client_ip(request)
     logger.warning(f"IP: {client_ip} failed to login.")

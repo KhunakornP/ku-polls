@@ -1,25 +1,13 @@
 {% extends "polls/base_template.html" %}
 {% block content %}
-<style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-}
-
-td{
-  border: 1px solid #dddddd;
-  text-align: right;
-  padding: 8px;
-  background-color: rgba(255,255,255,0.5);
-}
-th {
-  border: 1px solid #dddddd;
-  text-align: center;
-  padding: 8px;
-  background-color: rgba(255,255,255,0.5);
-}
-</style>
-<h1>{{ question.question_text }}</h1>
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
+<div class="container">
+<h1 style="background-color: #228B22;
+  color: white;
+  overflow-x: auto; padding: 5px 10px;">{{ question.question_text }}</h1>
 <table>
   <thead>
     <tr>
@@ -36,4 +24,5 @@ th {
     </tr>
     {% endfor %}
 </table>
+  </div>
 {% endblock %}

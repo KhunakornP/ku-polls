@@ -1,5 +1,9 @@
 {% extends "polls/base_template.html" %}
 {% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
 <style>
     form fieldset{
     background-color : rgba(255, 255, 255, 0.5);
@@ -19,7 +23,8 @@
         {% endif %}
     {% endfor %}
 </fieldset>
-<input type="submit" value="Vote">
+    <input type="submit" value="Vote">
+    <input type="submit" formaction="{% url 'polls:clear' question.id %}" value="Clear vote">
 </form>
 {% endblock %}
 {% block navigation %}
