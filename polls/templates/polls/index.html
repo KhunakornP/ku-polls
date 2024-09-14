@@ -33,7 +33,9 @@
   		{% else %}
         <h3> Status: Closed </h3>
             {% endif %}
-        <p><a href="{% url 'polls:detail' question.id %}">Vote</a></p>
+                {% if question.can_vote %}
+                    <p><a href="{% url 'polls:detail' question.id %}">Vote</a></p>
+                {% endif %}
   		<p><a href="{% url 'polls:results' question.id %}">Results</a></p>
         </div>
     {% endfor %}

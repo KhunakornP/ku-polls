@@ -60,6 +60,8 @@ python manage.py loaddata data/polls-v4.json data/votes-v4.json data/users.json
 create a .env file in the ku-polls directory and copy the sample.env
 file into the .env file
 
+NOTE: if you set DEBUG to False (like in sample.env) CSS will not load.
+
 ## Verify if the installation is successful
 
 run the following command
