@@ -1,4 +1,5 @@
-## KU Polls: Online Survey Questions 
+## KU Polls: Online Polling website
+[![Django CI](https://github.com/KhunakornP/ku-polls/actions/workflows/django_tests.yml/badge.svg)](https://github.com/KhunakornP/ku-polls/actions/workflows/django_tests.yml)
 
 An application to conduct online polls and surveys based
 on the [Django Tutorial project](https://docs.djangoproject.com/en/5.1/intro/tutorial01/), with
@@ -8,44 +9,27 @@ This app was created as part of the [Individual Software Process](
 https://cpske.github.io/ISP) course at [Kasetsart University](https://www.ku.ac.th).
 
 ## Installation
-- clone the repository
-```
-git clone https://github.com/KhunakornP/ku-polls.git
-```
-- navigate to the directory
-```
-cd ku-polls
-```
-- Install dependencies
-```
-pip install -r requirements.txt
-```
+please see [Installation.md](Installation.md#How-to-install) for installation instructions
+
 ## Running the Application
 
 ### How to run the program
-1. Create a virtual environment (Optional)
+1. Create a virtual environment (if you haven't created one during installation)
 ```
 python -m venv env
 ```
-2. Activate the virtual environment (Skip if skipping step 1)
+2. Activate the virtual environment
 ```
 env/bin/activate
 
 # on windows use
 \env\scripts\activate
 ```
-3. Make migrations (If running for the first time)
-```
-python manage.py migrate
-```
-4. Load data (If running for the first time)
-```
-python manage.py loaddata polls/data.json
-```
-5. Run the server
+3. Run the server
 ```
 python manage.py runserver
 ```
+4. Go to http://127.0.0.1:8000/
 
 ## Project Documents
 
