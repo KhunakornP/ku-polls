@@ -16,7 +16,6 @@ from decouple import config, Csv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -25,9 +24,8 @@ SECRET_KEY = config('SECRET_KEY', default='fake-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default='False')
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS',cast=Csv(),
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(),
                        default='localhost, 127.0.0.1, ::1, testserver')
-
 
 # Application definition
 
@@ -71,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -81,7 +78,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -103,7 +99,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     # username & password authentication
-   'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 LOGIN_REDIRECT_URL = 'polls:index'
@@ -114,29 +110,29 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
-            "file": {
-                "class": "logging.FileHandler",
-                "filename": "poll_logs.log",
-                "level": "DEBUG",
-                "formatter": "verbose",
-            },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "poll_logs.log",
+            "level": "DEBUG",
+            "formatter": "verbose",
         },
+    },
     "loggers": {
-            "polls": {
-                "level": "DEBUG",
-                "handlers": ["file"],
-                "propagate": False
-            },
+        "polls": {
+            "level": "DEBUG",
+            "handlers": ["file"],
+            "propagate": False
         },
+    },
     "formatters": {
-            "verbose": {
-                "format": "[{asctime}] {module} {levelname}"
-                          " {message}",
-                "datefmt": "%d/%m/%y %H:%M:%S",
-                "style": "{",
-            },
+        "verbose": {
+            "format": "[{asctime}] {module} {levelname}"
+                      " {message}",
+            "datefmt": "%d/%m/%y %H:%M:%S",
+            "style": "{",
         },
-    }
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -148,7 +144,6 @@ TIME_ZONE = config('TIME_ZONE', default='UTC')
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
