@@ -34,10 +34,10 @@ python -m venv env
 
 4. activate the virtual environment
 ```
-env/bin/activate
+.env/bin/activate
 
 # on windows use
-\env\scripts\activate
+.\env\scripts\activate
 ```
 
 5. install required python pakages

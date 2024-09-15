@@ -220,7 +220,8 @@ def register(request):
             raw_passwd = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_passwd)
             login(request, user)
-        return redirect('polls:index')
+            return redirect('polls:index')
+        return render(request, 'registration/register.html', {'form': form})
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
