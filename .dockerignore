@@ -1,0 +1,9 @@
+.git
+.venv
+.github
+__pycache__
+.coverage
+.coveragerc
+*.log
+.ruff_cache
+htmlcov
